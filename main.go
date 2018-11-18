@@ -115,7 +115,7 @@ func blockNumber(phone *string, note *string) {
 	bodyWriter.WriteField("callerid", *phone)
 	bodyWriter.WriteField("did", "all")
 	bodyWriter.WriteField("routing", "sys:hangup")
-	var filterNote = time.Now().Format("Jan.15/06")
+	var filterNote = time.Now().Format("Jan.02/06")
 	if *note != "" {
 		filterNote += " - " + *note
 	}
