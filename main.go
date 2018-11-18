@@ -16,41 +16,8 @@ import (
 
 var apiEndpoint = "https://voip.ms/api/v1/rest.php"
 
-type credentials struct {
-	Email    string `json:"email"`
-	Password string `json:"password"`
-}
-
-// BaseResp x
-type BaseResp struct {
-	Status string `json:"status"`
-}
-
-// BalanceResp x
-type BalanceResp struct {
-	BaseResp
-	Balance `json:"balance"`
-}
-
-// Balance x
-type Balance struct {
-	CurrentBalance json.Number `json:"current_balance"`
-	SpentTotal     json.Number `json:"spent_total"`
-	CallsTotal     json.Number `json:"calls_total"`
-	TimeTotal      json.Number `json:"time_total"`
-	SpentToday     json.Number `json:"spent_today"`
-	CallsToday     json.Number `json:"calls_today"`
-	TimeToday      json.Number `json:"time_today"`
-}
-
-// SetCallerIDFilterResp x
-type SetCallerIDFilterResp struct {
-	BaseResp
-	Filtering json.Number `json:"filtering"`
-}
-
-func readCredentials(s string) credentials {
-	f, err := os.Open(s)
+func readCredentials() credentials {
+	f, err := os.Open("credentials.json")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -68,7 +35,7 @@ func readCredentials(s string) credentials {
 }
 
 func printBalance() {
-	c := readCredentials("credentials.json")
+	c := readCredentials()
 	u, err := url.Parse(apiEndpoint)
 	if err != nil {
 		log.Fatal(err)
@@ -104,7 +71,7 @@ func printBalance() {
 }
 
 func blockNumber(phone *string, note *string) {
-	c := readCredentials("credentials.json")
+	c := readCredentials()
 
 	bodyBuf := &bytes.Buffer{}
 	bodyWriter := multipart.NewWriter(bodyBuf)
