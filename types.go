@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 )
 
+type postParams map[string]string
+
 type credentials struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
@@ -35,4 +37,24 @@ type Balance struct {
 type SetCallerIDFilterResp struct {
 	BaseResp
 	Filtering json.Number `json:"filtering"`
+}
+
+// GetCallDataRecord x
+type GetCallDataRecord struct {
+	BaseResp
+	CallDataRecords []CallDataRecord `json:"cdr"`
+}
+
+// CallDataRecord x
+type CallDataRecord struct {
+	Date        string      `json:"date"`
+	CallerID    string      `json:"callerid"`
+	Destination json.Number `json:"destination"`
+	Description string      `json:"description"`
+	Account     string      `json:"account"`
+	Disposition string      `json:"disposition"`
+	Duration    string      `json:"duration"`
+	Rate        json.Number `json:"rate"`
+	Total       json.Number `json:"total"`
+	UniqueID    json.Number `json:"uniqueid"`
 }
