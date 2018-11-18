@@ -28,11 +28,11 @@ func blockRecent() {
 		loc := regex.FindStringSubmatchIndex(cdr.CallerID)
 		if loc == nil {
 			fmt.Printf("help! no number in %s: %s\n", cdr.Date, cdr.CallerID)
-			break
+			continue
 		}
 		if len(loc) < 4 {
 			fmt.Printf("help! had trouble matching %s: %v\n", cdr.CallerID, loc)
-			break
+			continue
 		}
 		blockList = append(blockList, cdr.CallerID[loc[2]:loc[3]])
 	}
