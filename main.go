@@ -23,15 +23,15 @@ func blockRecent() {
 		return
 	}
 	var blockList []string
-	var regex = regexp.MustCompile(`<(\d+)>`)
+	regex := regexp.MustCompile(`<(\d+)>`)
 	for _, cdr := range r.CallDataRecords {
 		loc := regex.FindStringSubmatchIndex(cdr.CallerID)
 		if loc == nil {
-			fmt.Printf("help no number in %s: %s\n", cdr.Date, cdr.CallerID)
+			fmt.Printf("help! no number in %s: %s\n", cdr.Date, cdr.CallerID)
 			break
 		}
 		if len(loc) < 4 {
-			fmt.Printf("help had trouble matching %s: %v\n", cdr.CallerID, loc)
+			fmt.Printf("help! had trouble matching %s: %v\n", cdr.CallerID, loc)
 			break
 		}
 		blockList = append(blockList, cdr.CallerID[loc[2]:loc[3]])
@@ -41,14 +41,14 @@ func blockRecent() {
 		return
 	}
 	ui := input.DefaultUI()
-	opts := input.Options{
-		Loop: true,
-	}
-	number, err := ui.Select("Pick a number to block", blockList, &opts)
+	number, err := ui.Select("Pick a number to block", blockList, &input.Options{ Loop: true })
 	if err != nil {
 		log.Fatal(err)
 	}
 	note, err := ui.Ask("Input a note?", &input.Options{})
+	if err != nil {
+		log.Fatal(err)
+	}
 	blockNumber(&number, &note)
 }
 
