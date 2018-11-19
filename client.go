@@ -20,7 +20,7 @@ type client struct {
 
 func newClient() *client {
 	c := readCredentials()
-	return &client{apiEndpoint, c}
+	return &client{url: apiEndpoint, credentials: c}
 }
 
 func readCredentials() credentials {
@@ -59,7 +59,7 @@ func (c *client) doRequest(req *http.Request, respStruct interface{}) {
 }
 
 func (c *client) getRequest(method string, values url.Values, respStruct interface{}) {
-	u, err := url.Parse(apiEndpoint)
+	u, err := url.Parse(c.url)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -98,7 +98,7 @@ func (c *client) postRequest(method string, p postParams, respStruct interface{}
 	 *return
 	 */
 
-	req, err := http.NewRequest("POST", apiEndpoint, bodyBuf)
+	req, err := http.NewRequest("POST", c.url, bodyBuf)
 	req.Header.Set("Content-Type", contentType)
 	if err != nil {
 		log.Fatal(err)
