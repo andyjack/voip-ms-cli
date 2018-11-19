@@ -9,14 +9,14 @@ import (
 	input "github.com/tcnksm/go-input"
 )
 
-func showRecents() {
-	r := getRecents()
-	printRecents(r)
+func showRecent() {
+	r := getRecent()
+	printRecent(r)
 }
 
 func blockRecent() {
-	r := getRecents()
-	printRecents(r)
+	r := getRecent()
+	printRecent(r)
 	if r.Status == "no_cdr" {
 		// printRecents() handled it already
 		return
@@ -65,7 +65,7 @@ Specify a command:
 	  - pick a number to block from a list of recent calls
 	show-balance
 	  - show account balance
-	show-recents
+	show-recent
 	  - show recent calls (yesterday and today)
 	`)
 }
@@ -97,8 +97,8 @@ func main() {
 		number := rest[0]
 		blockNumber(&number, &note)
 		break
-	case "show-recents":
-		showRecents()
+	case "show-recent":
+		showRecent()
 		break
 	case "block-recent":
 		blockRecent()

@@ -47,7 +47,7 @@ func blockNumber(phone *string, note *string) {
 	}
 }
 
-func getRecents() GetCallDataRecord {
+func getRecent() GetCallDataRecord {
 
 	c := newClient()
 	v := url.Values{}
@@ -71,7 +71,7 @@ func getRecents() GetCallDataRecord {
 	return r
 }
 
-func printRecents(r GetCallDataRecord) {
+func printRecent(r GetCallDataRecord) {
 	switch r.Status {
 	case "success":
 		for _, cdr := range r.CallDataRecords {
