@@ -17,6 +17,10 @@ func showRecents() {
 func blockRecent() {
 	r := getRecents()
 	printRecents(r)
+	if r.Status == "no_cdr" {
+		// printRecents() handled it already
+		return
+	}
 	if r.Status != "success" || len(r.CallDataRecords) == 0 {
 		fmt.Printf("Status on call is %s\n", r.Status)
 		fmt.Println("Did not see any recents")
