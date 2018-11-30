@@ -75,7 +75,7 @@ func printRecent(r GetCallDataRecord) {
 	switch r.Status {
 	case "success":
 		for _, cdr := range r.CallDataRecords {
-			fmt.Printf("%s: %s\n", cdr.Date, cdr.CallerID)
+			fmt.Printf("%s: %s dest:%s disp:%s desc:%s\n", cdr.Date, cdr.CallerID, cdr.Destination, cdr.Disposition, cdr.Description)
 		}
 	case "no_cdr":
 		fmt.Println("No recent calls found")
