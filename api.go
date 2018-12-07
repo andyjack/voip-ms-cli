@@ -3,6 +3,9 @@ package main
 import (
 	"fmt"
 	"net/url"
+	"os"
+	"strings"
+	"text/tabwriter"
 	"time"
 )
 
@@ -74,9 +77,29 @@ func getRecent() GetCallDataRecord {
 func printRecent(r GetCallDataRecord) {
 	switch r.Status {
 	case "success":
-		for _, cdr := range r.CallDataRecords {
-			fmt.Printf("%s: %s dest:%s disp:%s desc:%s dur:%s\n", cdr.Date, cdr.CallerID, cdr.Destination, cdr.Disposition, cdr.Description, cdr.Duration)
+		w := tabwriter.NewWriter(os.Stdout, 0, 0, 4, ' ', tabwriter.AlignRight)
+		header := []string{
+			"Date",
+			"CallerID",
+			"Destination",
+			"Description",
+			"Disposition",
+			"Duration",
 		}
+		fmt.Fprintln(w, strings.Join(header, "\t")+"\t")
+		for _, cdr := range r.CallDataRecords {
+			fmt.Fprintln(
+				w,
+				strings.Join([]string{
+					cdr.Date,
+					cdr.CallerID,
+					string(cdr.Destination),
+					cdr.Disposition,
+					cdr.Description,
+					cdr.Duration,
+				}, "\t")+"\t")
+		}
+		w.Flush()
 	case "no_cdr":
 		fmt.Println("No recent calls found")
 	default:
