@@ -82,8 +82,8 @@ func printRecent(r GetCallDataRecord) {
 			"Date",
 			"CallerID",
 			"Destination",
-			"Description",
 			"Disposition",
+			"Description",
 			"Duration",
 		}
 		fmt.Fprintln(w, strings.Join(header, "\t")+"\t")
