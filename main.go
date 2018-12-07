@@ -27,6 +27,7 @@ func blockRecent() {
 		return
 	}
 	var blockList []string
+	seen := make(map[string]struct{}, len(r.CallDataRecords))
 	regex := regexp.MustCompile(`<(\d+)>`)
 	for _, cdr := range r.CallDataRecords {
 		loc := regex.FindStringSubmatchIndex(cdr.CallerID)
@@ -38,7 +39,12 @@ func blockRecent() {
 			fmt.Printf("help! had trouble matching %s: %v\n", cdr.CallerID, loc)
 			continue
 		}
-		blockList = append(blockList, cdr.CallerID[loc[2]:loc[3]])
+		number := cdr.CallerID[loc[2]:loc[3]]
+		if _, ok := seen[number]; ok {
+			continue
+		}
+		blockList = append(blockList, number);
+		seen[number] = struct{}{}
 	}
 	if len(blockList) == 0 {
 		fmt.Println("No numbers to block")
