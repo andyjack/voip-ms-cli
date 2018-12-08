@@ -61,14 +61,14 @@ func usage() {
 	fmt.Println(`
 Specify a command:
 	block-number number [note]
-	  - add a caller ID filter for the provided number, with optional note
+		- add a caller ID filter for the provided number, with optional note
 	block-recent [D]
-	  - pick a number to block from a list of recent calls. Display calls from 
-	    today to [D] days ago; D defaults to 1
+		- pick a number to block from a list of recent calls. Display calls from
+		today to [D] days ago; D defaults to 1
 	show-balance
-	  - show account balance
+		- show account balance
 	show-recent [D]
-	  - show recent calls from today to [D] days ago; D defaults to 1
+		- show recent calls from today to [D] days ago; D defaults to 1
 	`)
 }
 
