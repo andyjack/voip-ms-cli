@@ -48,19 +48,19 @@ func blockNumber(phone *string, note *string) {
 	}
 }
 
-func getRecent() GetCallDataRecord {
+func getRecent(dateFrom time.Time) GetCallDataRecord {
 
 	c := newClient()
 	v := url.Values{}
 	r := GetCallDataRecord{}
 
+	timeFormat := "2006-01-02"
 	now := time.Now()
-	today := now.Format("2006-01-02")
-	yesterday := now.Add(time.Hour * 24 * -1).Format("2006-01-02")
+	today := now.Format(timeFormat)
 	_, offset := now.Zone()
 	zoneDuration := time.Duration(offset) * time.Second
 	v.Add("date_to", today)
-	v.Add("date_from", yesterday)
+	v.Add("date_from", dateFrom.Format(timeFormat))
 	v.Add("timezone", fmt.Sprintf("%.2g", zoneDuration.Hours()))
 	v.Add("answered", "1")
 	v.Add("noanswer", "1")

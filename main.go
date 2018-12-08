@@ -5,18 +5,13 @@ import (
 	"log"
 	"os"
 	"regexp"
+	"strconv"
+	"time"
 
 	input "github.com/tcnksm/go-input"
 )
 
-func showRecent() {
-	r := getRecent()
-	printRecent(r)
-}
-
-func blockRecent() {
-	r := getRecent()
-	printRecent(r)
+func blockRecent(r GetCallDataRecord) {
 	if r.Status == "no_cdr" {
 		// printRecents() handled it already
 		return
@@ -43,7 +38,7 @@ func blockRecent() {
 		if _, ok := seen[number]; ok {
 			continue
 		}
-		blockList = append(blockList, number);
+		blockList = append(blockList, number)
 		seen[number] = struct{}{}
 	}
 	if len(blockList) == 0 {
@@ -51,7 +46,7 @@ func blockRecent() {
 		return
 	}
 	ui := input.DefaultUI()
-	number, err := ui.Select("Pick a number to block", blockList, &input.Options{ Loop: true })
+	number, err := ui.Select("Pick a number to block", blockList, &input.Options{Loop: true})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -67,12 +62,13 @@ func usage() {
 Specify a command:
 	block-number number [note]
 	  - add a caller ID filter for the provided number, with optional note
-	block-recent
-	  - pick a number to block from a list of recent calls
+	block-recent [D]
+	  - pick a number to block from a list of recent calls. Display calls from 
+	    today to [D] days ago; D defaults to 1
 	show-balance
 	  - show account balance
-	show-recent
-	  - show recent calls (yesterday and today)
+	show-recent [D]
+	  - show recent calls from today to [D] days ago; D defaults to 1
 	`)
 }
 
@@ -101,10 +97,22 @@ func main() {
 		}
 		number := rest[0]
 		blockNumber(&number, &note)
-	case "show-recent":
-		showRecent()
-	case "block-recent":
-		blockRecent()
+	case "show-recent", "block-recent":
+		var daysAgo = 1
+		if len(rest) >= 1 {
+			parsed, err := strconv.Atoi(rest[0])
+			if err != nil {
+				log.Fatal(err)
+			}
+			daysAgo = parsed
+		}
+		dateFrom := time.Now().AddDate(0, 0, -1*daysAgo)
+		r := getRecent(dateFrom)
+		fmt.Println("Calls since", dateFrom.Format("2006-Jan-02"))
+		printRecent(r)
+		if cmd == "block-recent" {
+			blockRecent(r)
+		}
 	default:
 		usage()
 	}
