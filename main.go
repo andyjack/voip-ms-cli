@@ -90,7 +90,6 @@ func main() {
 	switch cmd {
 	case "show-balance":
 		printBalance()
-		break
 	case "block-number":
 		if len(rest) == 0 {
 			fmt.Println("block-number needs a number and an optional note")
@@ -102,13 +101,10 @@ func main() {
 		}
 		number := rest[0]
 		blockNumber(&number, &note)
-		break
 	case "show-recent":
 		showRecent()
-		break
 	case "block-recent":
 		blockRecent()
-		break
 	default:
 		usage()
 	}

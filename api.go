@@ -40,10 +40,8 @@ func blockNumber(phone *string, note *string) {
 	switch s.Status {
 	case "used_filter":
 		fmt.Println("Voip.ms reports a filter for this number already exists:", *phone)
-		break
 	case "success":
 		fmt.Printf("Yay, %s blocked successfully with note [%s]: got filter id %s\n", *phone, filterNote, s.Filtering.String())
-		break
 	default:
 		fmt.Println("Unknown result:")
 		fmt.Printf("%+v\n", s)
