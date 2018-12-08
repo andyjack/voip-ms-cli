@@ -98,6 +98,7 @@ func printRecent(r GetCallDataRecord) {
 				}, "\t")+"\t")
 		}
 		w.Flush()
+		fmt.Printf("%d calls\n", len(r.CallDataRecords))
 	case "no_cdr":
 		fmt.Println("No recent calls found")
 	default:
