@@ -98,7 +98,7 @@ func main() {
 		number := rest[0]
 		blockNumber(&number, &note)
 	case "show-recent", "block-recent":
-		var daysAgo = 1
+		daysAgo := 1
 		if len(rest) >= 1 {
 			parsed, err := strconv.Atoi(rest[0])
 			if err != nil {
