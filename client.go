@@ -3,15 +3,15 @@ package main
 import (
 	"bytes"
 	"encoding/json"
-	"io"
 	"log"
 	"mime/multipart"
 	"net/http"
 	"net/url"
-	"os"
+	"path/filepath"
 )
 
 var apiEndpoint = "https://voip.ms/api/v1/rest.php"
+var confFileName = "config.toml"
 
 type client struct {
 	url string
@@ -24,20 +24,15 @@ func newClient() *client {
 }
 
 func readCredentials() credentials {
-	f, err := os.Open("credentials.json")
+	confDir, err := getDefaultConfigDir()
 	if err != nil {
 		log.Fatal(err)
 	}
-	dec := json.NewDecoder(f)
-	var c credentials
-	for {
-		if err = dec.Decode(&c); err == io.EOF {
-			break
-		} else if err != nil {
-			log.Fatal(err)
-		}
+	conf, err := loadConfig(filepath.Join(confDir, confFileName))
+	if err != nil {
+		log.Fatal(err)
 	}
-	return c
+	return conf.Credentials
 }
 
 func (c *client) doRequest(req *http.Request, respStruct interface{}) {

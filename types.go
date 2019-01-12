@@ -6,11 +6,6 @@ import (
 
 type postParams map[string]string
 
-type credentials struct {
-	Email    string `json:"email"`
-	Password string `json:"password"`
-}
-
 // BaseResp x
 type BaseResp struct {
 	Status string `json:"status"`
