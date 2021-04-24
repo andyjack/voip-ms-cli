@@ -59,6 +59,8 @@ func getRecent(dateFrom time.Time) GetCallDataRecord {
 	today := now.Format(timeFormat)
 	_, offset := now.Zone()
 	zoneDuration := time.Duration(offset) * time.Second
+	// I think voip.ms has the wrong idea of what the current time is
+	zoneDuration -= time.Duration(1) * time.Hour
 	v.Add("date_to", today)
 	v.Add("date_from", dateFrom.Format(timeFormat))
 	v.Add("timezone", fmt.Sprintf("%.2g", zoneDuration.Hours()))
