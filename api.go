@@ -27,7 +27,7 @@ func blockNumber(phone *string, note *string) {
 	m["did"] = "all"
 	m["routing"] = "sys:hangup"
 
-	var filterNote = time.Now().Format("Jan.02/06")
+	filterNote := time.Now().Format("Jan.02/06")
 	if *note != "" {
 		filterNote += " - " + *note
 	}
@@ -49,7 +49,6 @@ func blockNumber(phone *string, note *string) {
 }
 
 func getRecent(dateFrom time.Time) GetCallDataRecord {
-
 	c := newClient()
 	v := url.Values{}
 	r := GetCallDataRecord{}

@@ -91,7 +91,7 @@ func main() {
 			fmt.Println("block-number needs a number and an optional note")
 			return
 		}
-		var note = ""
+		note := ""
 		if len(rest) > 1 {
 			note = rest[1]
 		}

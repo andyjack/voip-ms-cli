@@ -62,5 +62,4 @@ func loadConfig(filename string) (*Config, error) {
 		return nil, errors.New("config is missing credentials.email or password")
 	}
 	return &c, nil
-
 }

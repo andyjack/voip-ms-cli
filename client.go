@@ -10,8 +10,10 @@ import (
 	"path/filepath"
 )
 
-var apiEndpoint = "https://voip.ms/api/v1/rest.php"
-var confFileName = "config.toml"
+var (
+	apiEndpoint  = "https://voip.ms/api/v1/rest.php"
+	confFileName = "config.toml"
+)
 
 type client struct {
 	url string
@@ -36,7 +38,6 @@ func readCredentials() credentials {
 }
 
 func (c *client) doRequest(req *http.Request, respStruct interface{}) {
-
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
@@ -50,7 +51,6 @@ func (c *client) doRequest(req *http.Request, respStruct interface{}) {
 		log.Fatal(err)
 	}
 	return
-
 }
 
 func (c *client) getRequest(method string, values url.Values, respStruct interface{}) {
